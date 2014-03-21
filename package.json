@@ -1,0 +1,22 @@
+{
+  "name": "databases",
+  "version": "0.0.0",
+  "description": "ERROR: No README.md file found!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jyek/2014-02-databases"
+  },
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "mysql": "~2.1.1",
+    "jasmine-node": "~1.14.2",
+    "request": "~2.34.0",
+    "nodemon": "~1.0.17",
+    "url": "~0.7.9"
+  }
+}

@@ -10,14 +10,14 @@ describe("Persistent Node Chat Server", function() {
   beforeEach(function(done) {
     dbConnection = mysql.createConnection({
     /* TODO: Fill this out with your mysql username */
-      user: "",
+      user: "root",
     /* and password. */
       password: "",
       database: "chat"
     });
     dbConnection.connect();
 
-    var tablename = ""; // TODO: fill this out
+    var tablename = "message"; // TODO: fill this out
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
@@ -39,7 +39,7 @@ describe("Persistent Node Chat Server", function() {
               /* Now if we look in the database, we should find the
                * posted message there. */
 
-              var queryString = "";
+              var queryString = "SELECT * FROM message";
               var queryArgs = [];
               /* TODO: Change the above queryString & queryArgs to match your schema design
                * The exact query string and query args to use
@@ -48,6 +48,7 @@ describe("Persistent Node Chat Server", function() {
               dbConnection.query( queryString, queryArgs,
                 function(err, results, fields) {
                   // Should have one result:
+                  console.log('Results', results);
                   expect(results.length).toEqual(1);
                   expect(results[0].username).toEqual("Valjean");
                   expect(results[0].message).toEqual("In mercy's name, three days is all I need.");
