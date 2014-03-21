@@ -1,46 +1,40 @@
-var httpHelpers = require('./http-helpers');
+/*******************************************************************************/
+/* REQUEST HANDLER */
+/*******************************************************************************/
+var _ = require('underscore');
+var memory = require('./bootstrap-data.js');
+var httpHelpers = require('./http-helpers.js')
+var url = require('url');
 
-var objectId = 1;
-var messages = [
-  {
-    objectId: objectId,
-    username: 'fred',
-    text: 'hello world'
-  }
-];
-
-var getMessages = function(request, response){
-  httpHelpers.sendResponse(response, {results: messages} );
+var respondGET = function(request, response){
+  var query = url.parse(request.url, true).query;
+  var data = memory.filter(query) ; 
+  httpHelpers.send(response, data); 
 };
 
-var postMessage = function(request, response){
-  // listen for chunks, assemble them
+var respondPOST = function(request, response){
+  // Listen for chunks and assemble them
   httpHelpers.collectData(request, function(data){
-    // parse the data
-    var message = JSON.parse(data);
-    objectId++;
-    message.objectId = objectId;
-    // push into messages
-    messages.unshift(message);
-    httpHelpers.sendResponse(response, null, 201);
-  })
+    memory.add(JSON.parse(data));
+    httpHelpers.send(response, null, 201);
+  });
 };
 
-var options = function(request, response){
-  httpHelpers.sendResponse(response);
+var respondOPTIONS = function(request, response){
+  httpHelpers.send(response);
 };
 
 var actions = {
-  'GET': getMessages,
-  'POST': postMessage,
-  'OPTIONS': options
+  'GET':respondGET,
+  'POST':respondPOST,
+  'OPTIONS':respondOPTIONS
 };
 
 exports.handler = function(request, response) {
   var action = actions[request.method];
-  if( action ){
+  if(action){
     action(request, response);
   } else {
-    httpHelpers.sendResponse(response, null, 404);
+    httpHelpers.send(response, null, 404);
   }
 };
