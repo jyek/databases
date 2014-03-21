@@ -4,21 +4,21 @@ var helpers = require('./http-helpers');
 var server = require("./persistent_server");
 var querystring = require('querystring');
 
-var handleGet = function(){
-
+var handleGet = function(request, response){
+  var query = 'SELECT * FROM message';
+  server.dbConnection.query(query, function(err, rows, fields) {
+    if (err) throw err;
+    console.log('***', response, {results: rows});
+    helpers.sendResponse(response, {results: rows} );
+  });
 };
 
 var handlePost = function(request, response){
-  // listen for chunks, assemble them
   helpers.collectData(request, function(data){
-    // parse the data
-    console.log('data', data);
     var message = querystring.parse(data);
-    console.log(message);
     var roomname = message.hasOwnProperty(roomname) ? message.roomname : '';
     var params = '"' + message.username + '","' + roomname + '","' + message.message + '"';
     var query = 'INSERT INTO message (username, roomname, message) VALUES (' + params + ')';
-    console.log(query);
     server.dbConnection.query(query, function(err, rows, fields) {
       if (err) throw err;
       helpers.sendResponse(response, null, 201);

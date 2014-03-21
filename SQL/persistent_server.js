@@ -2,9 +2,6 @@ var mysql = require('mysql');
 var http = require("http");
 var handler = require("./request-handler");
 
-/* You'll need to fill the following out with your mysql username and password.
- * database: "chat" specifies that we're using the database called
- * "chat", which we created by running schema.sql.*/
 exports.dbConnection = dbConnection = mysql.createConnection({
   user: "root",
   password: "",
