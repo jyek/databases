@@ -7,8 +7,8 @@ CREATE TABLE message (
   `username` varchar(50) NULL,
   `roomname` varchar(50) NULL,
   `text` varchar(500) NULL,
-  `created_at` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default now() ON UPDATE now(),
    PRIMARY KEY  (`message_id`)
 );
 

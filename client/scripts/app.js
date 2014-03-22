@@ -130,7 +130,7 @@ ChatView.prototype.addMessage = function(msg, context){
 /* App */
 var App = function() {
   // RESTful API
-  this.server = 'http://127.0.0.1:3000/classes/messages';
+  this.server = 'http://127.0.0.1:8080/classes/messages';
 
   // Current roomname
   this.roomname = '';
@@ -160,7 +160,7 @@ App.prototype.init = function(){
   context.changeRoom('');
 
   // periodically get new messages
-  setInterval($.proxy(context.fetch, context, {data: $.proxy(context.fetchData, context)}), 5000);
+  setInterval($.proxy(context.fetch, context, {data: $.proxy(context.fetchData, context)}), 50000);
 
   // return home
   $('.chat-home').on('click', function(){
@@ -224,7 +224,7 @@ App.prototype.fetch = function(options){
     data: theJsonData,
     contentType: 'application/json',
     success: function(data){
-      events.trigger('fetch:success', data);
+      events.trigger('fetch:success', JSON.parse(data));
     },
     error: function (data) {
       // see: https://developer.mozilla.org/en-US/docs/Web/API/console.error

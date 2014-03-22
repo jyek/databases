@@ -8,8 +8,8 @@ var url = require('url');
 
 var respondGET = function(request, response){
   var query = url.parse(request.url, true).query;
-  var data = memory.filter(query) ; 
-  httpHelpers.send(response, data); 
+  var data = memory.filter(query);
+  httpHelpers.send(response, data);
 };
 
 var respondPOST = function(request, response){
