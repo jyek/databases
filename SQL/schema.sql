@@ -2,18 +2,26 @@ CREATE DATABASE chat;
 
 USE chat;
 
-CREATE TABLE message (
-  `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NULL,
-  `roomname` varchar(50) NULL,
-  `text` varchar(500) NULL,
-  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL default now() ON UPDATE now(),
-   PRIMARY KEY  (`message_id`)
+CREATE TABLE room (
+  `room_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NULL,
+   PRIMARY KEY  (`room_id`)
 );
 
-/* You can also create more tables, if you need them... */
+CREATE TABLE user (
+  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NULL,
+   PRIMARY KEY  (`user_id`)
+);
 
-/*  Execute this file from the command line by typing:
- *    mysql < schema.sql
- *  to create the database and the tables.*/
+CREATE TABLE message (
+  `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `text` varchar(500) NULL,
+  `user_id` int(10) unsigned NULL,
+  `room_id` int(10) unsigned NULL,
+  `created_at` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL default now() ON UPDATE now(),
+  PRIMARY KEY  (`message_id`),
+  FOREIGN KEY (`user_id`) REFERENCES user(`user_id`),
+  FOREIGN KEY (`room_id`) REFERENCES room(`room_id`)
+);
