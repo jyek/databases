@@ -1,0 +1,20 @@
+// var mysql = require('mysql');
+var orm = require('./orm');
+var http = require("http");
+var handler = require("./request-handler");
+
+// exports.dbConnection = dbConnection = mysql.createConnection({
+//   user: "root",
+//   password: "",
+//   database: "chat"
+// });
+
+// dbConnection.connect();
+
+exports.dbConnection = orm;
+
+var port = 8080;
+var ip = "127.0.0.1";
+var server = http.createServer(handler.handleRequest);
+console.log("Listening on http://" + ip + ":" + port);
+server.listen(port, ip);
